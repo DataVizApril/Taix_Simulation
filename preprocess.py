@@ -41,7 +41,7 @@ for i in outflow_list:
 	# print i, prob, sum_outflow
 	prob_outflow_list.append(prob)
 
-print max(prob_outflow_list)
+# print max(prob_outflow_list)
  
 # inflow
 
@@ -78,4 +78,34 @@ print max(prob_outflow_list)
 # 	c_dd.write(str(dd_list[k]) + '\n')
 
 # print dd_list
-print random.uniform(0,1)
+r = random.uniform(0,1)
+
+print "The radom number is " + str(r)
+
+distri_list = []
+
+for i in range(len(prob_outflow_list)):
+	k = prob_outflow_list[i]
+	if i == 0:
+		distri_list.append(k)
+	else:
+		temp = distri_list[(i-1)] + k
+		distri_list.append(temp)
+
+print len(distri_list)
+# print distri_list
+
+for j in range(len(distri_list)):
+	if distri_list[j] < r and r <= distri_list[j+1]:
+		position = j
+
+		print distri_list[j],distri_list[j+1],j
+
+		print (distri_list[j+1] - distri_list[j])
+		print (prob_outflow_list[j])
+		print (prob_outflow_list[j+1])
+
+		break
+
+
+
