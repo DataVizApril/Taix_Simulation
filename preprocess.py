@@ -36,6 +36,7 @@ print "The simulated hourly trip with " + str(sim_taxi) + " taxi is " + str(sim_
 
 prob_outflow_list = []
 
+#Get the probability for each zones
 for i in outflow_list:
 	prob = float(i)/float(sum_outflow)
 	# print i, prob, sum_outflow
@@ -78,9 +79,6 @@ for i in outflow_list:
 # 	c_dd.write(str(dd_list[k]) + '\n')
 
 # print dd_list
-r = random.uniform(0,1)
-
-print "The radom number is " + str(r)
 
 distri_list = []
 
@@ -88,24 +86,48 @@ for i in range(len(prob_outflow_list)):
 	k = prob_outflow_list[i]
 	if i == 0:
 		distri_list.append(k)
+		# print k
 	else:
 		temp = distri_list[(i-1)] + k
 		distri_list.append(temp)
 
-print len(distri_list)
-# print distri_list
+# print len(distri_list)
 
-for j in range(len(distri_list)):
-	if distri_list[j] < r and r <= distri_list[j+1]:
-		position = j
+# index = len(distri_list)-1
+# print distri_list[index]
 
-		print distri_list[j],distri_list[j+1],j
+#Generate the new density map
+row = 56
+column = 99
 
-		print (distri_list[j+1] - distri_list[j])
-		print (prob_outflow_list[j])
-		print (prob_outflow_list[j+1])
-
-		break
+flow = [[0 for j in range(column)] for i in range(row)]
 
 
+#Generate the random value for redistribution
+for k in range(16555):
+	r = random.uniform(0,1)
+	print "The radom number is " + str(r)
+	for j in range(len(distri_list)):
+		if distri_list[j] < r and r <= distri_list[j+1]:
+			position = j +1 
 
+			x = position/99
+			y = position%99
+
+			flow[x][y] = flow[x][y] + 1
+
+			print "The position for this people is " + str(position)
+			print "The (x,y) is (" + str(x) + ',' + str(y) + ')'
+
+			# print (distri_list[j+1] - distri_list[j])
+			# # print (prob_outflow_list[j])
+			# print (prob_outflow_list[j+1])
+
+			break
+
+# print flow
+
+f_result = open('C:\Users\mqzhang\Desktop\Taxi_Simulation\Uber\passenger_hourly_total.csv','w')
+
+for i in flow:
+	f_result.write(str(i) + '\n')
